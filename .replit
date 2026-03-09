@@ -1,0 +1,81 @@
+entrypoint = "README.md"
+modules = ["nodejs-22"]
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+deploymentTarget = "cloudrun"
+build = ["sh", "-c", "npm run expo:static:build && npm run server:build"]
+run = ["npm", "run", "server:prod"]
+
+[[ports]]
+localPort = 5000
+externalPort = 5000
+
+[[ports]]
+localPort = 8081
+externalPort = 80
+
+[env]
+PORT = "5000"
+
+[agent]
+stack = "EXPO"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start App"
+
+[[workflows.workflow]]
+name = "Start App"
+author = "agent"
+mode = "parallel"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start Backend"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start Frontend"
+
+[[workflows.workflow]]
+name = "Start Backend"
+author = "agent"
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run server:dev"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "Start Frontend"
+author = "agent"
+mode = "sequential"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run expo:dev"
+waitForPort = 8081
+ensurePreviewReachable = "/status"
+
+[userenv]
+
+[userenv.shared]
+FASTAPI_URL = "http://localhost:8000"
+EXPO_PUBLIC_FIREBASE_API_KEY = "AIzaSyBbn2ilkvWxEqeMX2nD0VHb-aoBWKuFUFU"
+EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN = "geosafe-735f1.firebaseapp.com"
+EXPO_PUBLIC_FIREBASE_PROJECT_ID = "geosafe-735f1"
+EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET = "geosafe-735f1.firebasestorage.app"
+EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = "282153865188"
+EXPO_PUBLIC_FIREBASE_APP_ID = "1:282153865188:web:550fcdd930af324f9381f1"

@@ -1,0 +1,88 @@
+Build a complete Android mobile application (production-ready) for my project titled:
+
+"Geo-safety predictor based on crime risk indexing"
+
+The application must integrate with my existing FastAPI backend (retrieve.py) which exposes a safety score prediction API endpoint that accepts latitude and longitude and returns a predicted safety score.
+
+Backend Details:
+- Framework: FastAPI
+- Hosted locally or via PythonAnywhere
+- Endpoint: POST /predict (takes lat, long)
+- Returns: JSON with safety_score
+
+--------------------------------------
+
+App Requirements:
+
+1. Authentication
+- Use Firebase Authentication
+- Email + Password login/signup
+- Store user data in Cloud Firestore
+- On first login, request location and contact permissions
+
+2. Home Screen
+- Display:
+  - Current latitude & longitude
+  - Predicted Safety Score (from API)
+  - Safety level indicator (Green = Safe, Yellow = Moderate, Red = Risky)
+- Button to refresh safety score
+- Button to submit user safety opinion (0–10 rating)
+- Save user feedback to Firestore
+
+3. Safety Score Screen
+- Integrate Google Maps SDK
+- Show:
+  - User current location
+  - Marker with safety score popup
+  - Color-coded map circle based on safety score
+- Fetch real-time prediction from FastAPI API
+
+4. Guard / SOS Screen
+- SOS button:
+    - Sends SMS every 5 minutes to saved emergency contacts
+    - Includes Google Maps live location link
+- Emergency Call button:
+    - Calls primary emergency contact
+- Stop Alert button
+
+5. Profile Screen
+- Manage emergency contacts
+- Add / Edit / Delete contacts
+- Store in Cloud Firestore
+
+--------------------------------------
+
+Technical Requirements:
+
+- Language: Kotlin (preferred) 
+- Architecture: MVVM
+- API Calls: Retrofit
+- Permissions: Location + SMS + Call
+- Firebase Firestore integration
+- Google Maps SDK integration
+- Clean UI (modern material design)
+- Production-ready structure
+- Proper error handling
+- Loading indicators during API calls
+
+--------------------------------------
+
+Extra:
+
+- If safety_score >= 8 → Show "Safe Area"
+- If safety_score 5–7 → Show "Moderate Risk"
+- If safety_score < 5 → Show "High Risk Area"
+
+--------------------------------------
+
+Deliver:
+
+1. Complete project structure
+2. All required Kotlin files
+3. AndroidManifest.xml
+4. API integration code
+5. Firebase configuration steps
+6. Step-by-step run instructions
+
+Do NOT give explanation. 
+Generate full working project code.
