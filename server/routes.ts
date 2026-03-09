@@ -3,7 +3,7 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "node:http";
 import fs from "fs";
 import path from "path";
-import csv from "csv-parser";
+const csv = require("csv-parser");
 
 const crimes: any[] = [];
 
@@ -15,11 +15,11 @@ const filePath = path.resolve(
 // Load CSV once
 fs.createReadStream(filePath)
   .pipe(csv())
-  .on("data", (data) => crimes.push(data))
+  .on("data", (data: any) => crimes.push(data))
   .on("end", () => {
     console.log("Crime dataset loaded:", crimes.length);
   })
-  .on("error", (err) => {
+  .on("error", (err: any) => {
     console.error("CSV read error:", err);
   });
 
