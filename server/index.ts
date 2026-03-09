@@ -14,7 +14,7 @@ declare module "http" {
 }
 
 function setupCors(app: express.Application) {
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     const origins = new Set<string>();
 
     if (process.env.REPLIT_DEV_DOMAIN) {
@@ -55,7 +55,7 @@ function setupCors(app: express.Application) {
 function setupBodyParsing(app: express.Application) {
   app.use(
     express.json({
-      verify: (req, _res, buf) => {
+      verify: (req: any, _res: any, buf: Buffer) => {
         req.rawBody = buf;
       },
     }),
@@ -65,7 +65,7 @@ function setupBodyParsing(app: express.Application) {
 }
 
 function setupRequestLogging(app: express.Application) {
-  app.use((req, res, next) => {
+  app.use((req: Request, res: Response, next: NextFunction) => {
     const start = Date.now();
     const path = req.path;
     let capturedJsonResponse: Record<string, unknown> | undefined = undefined;
@@ -236,15 +236,9 @@ function setupErrorHandler(app: express.Application) {
 
   setupErrorHandler(app);
 
-  const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen(
-    {
-      port,
-      host: "0.0.0.0",
-      reusePort: true,
-    },
-    () => {
-      log(`express server serving on port ${port}`);
-    },
-  );
+  const port = Number(process.env.PORT) || 10000;
+
+server.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
+});
 })();
